@@ -53,7 +53,7 @@ class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(1000))
-    name = db.Column(db.String(1000))
+    name = db.Column(db.String(100))
 
     review = relationship("Reviews", back_populates="author")
 
@@ -61,9 +61,9 @@ class Users(UserMixin, db.Model):
 # Titles model with relationship to Reviews
 class Titles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(20), unique=False, nullable=False)
+    title = db.Column(db.String(100), unique=False, nullable=False)
     release_date = db.Column(db.DateTime, unique=False, nullable=False)
-    overview = db.Column(db.String(200), unique=False, nullable=False)
+    overview = db.Column(db.String(1000), unique=False, nullable=False)
     genre_ids = db.Column(db.PickleType, unique=False, nullable=False)
     img_url = db.Column(db.String(200), unique=False, nullable=False)
     movie_or_tv = db.Column(db.String(20), unique=False, nullable=False)
