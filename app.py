@@ -551,7 +551,7 @@ def movies_tv_pages(movies_tv_shows, page_number):
         # Render the template with the paginated titles and pagination information
         return render_template(
             "display_all.html",
-            all_titles={movie_or_tv.replace("_", " ").title(): all_titles},
+            all_titles={movies_tv_shows.replace("_", " ").title(): all_titles},
             total_pages=total_pages,
             page_number=page_number,
             movies_tv_shows=movies_tv_shows,
