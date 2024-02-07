@@ -1,0 +1,223 @@
+/* Global Styles */
+html,
+body {
+  height: 100%;
+}
+
+/* Form Styles */
+.form-signin {
+  max-width: 330px;
+  padding: 1rem;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type='email'] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type='password'] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Card Title Styles */
+.card-title {
+  max-height: 50px;
+  overflow: hidden;
+}
+
+.card-title:hover {
+  overflow: auto;
+  white-space: normal;
+}
+
+.card {
+  color: inherit;
+  cursor: pointer;
+  width: 150px;
+  min-width: 150px;
+  height: 200px;
+  min-height: 200px;
+  perspective: 1000px;
+  margin: 1rem 1rem;
+  position: relative;
+}
+
+.front,
+.back {
+  display: flex;
+  border-radius: 6px;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: ease-in-out 600ms;
+}
+.front {
+  background-size: cover;
+  padding: 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  font-family: Poppins, sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow: black;
+  align-items: end;
+}
+.front:before {
+  position: absolute;
+  display: block;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #1a9be6, #1a57e6);
+  opacity: 0.25;
+  z-index: -1;
+}
+.card:hover .front {
+  transform: rotateY(180deg);
+}
+.card:nth-child(even):hover .front {
+  transform: rotateY(-180deg);
+}
+.back {
+  background: rgba(1, 52, 75, 0.1);
+  transform: rotateY(-180deg);
+  padding: 0 2em;
+  color: #b4b7c1;
+  font-weight: bold;
+}
+.card:hover .back {
+  transform: rotateY(0deg);
+}
+.card:nth-child(even) .back {
+  transform: rotateY(180deg);
+}
+.card:nth-child(even):hover .back {
+  transform: rotateY(0deg);
+}
+
+/* Card Container Styles */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Review Comment Styles */
+.img-comment {
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-bottom: 15px;
+}
+
+.comment-content {
+  display: flex;
+  margin-left: 80px;
+  align-items: flex-start;
+}
+
+.comment-name,
+.comment-rating {
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.review-rating {
+  display: inline-block;
+  max-width: 65px;
+}
+
+.comment-text {
+  font-size: 15px;
+  line-height: 10px;
+  display: block;
+  flex-grow: 1;
+  border: 1px solid #7a8192;
+  border-radius: 8px;
+  padding: 15px 20px 20px 20px;
+}
+
+#edit-rating {
+  display: inline-block;
+}
+
+/* Media Query for Limited Space */
+@media (max-width: 768px) {
+  .comment-content {
+    flex-wrap: wrap; /* Allow wrapping when space is limited */
+    margin-left: 0; /* Reset margin for limited space */
+  }
+
+  .comment-rating {
+    white-space: normal; /* Allow wrapping on limited space */
+    white-space: normal; /* Allow wrapping on limited space */
+    margin-top: 5px; /* Add spacing between name and rating on limited space */
+  }
+}
+
+.comment-time {
+  text-align: right;
+  font-size: 13px;
+  color: #b4b7c1;
+  flex-grow: 1;
+}
+
+.bi-star-fill {
+  color: gold;
+}
+
+label[name='edit-review-btn'],
+a[name='delete-review-btn'] {
+  padding: 2px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* Search List Styles */
+.search-list {
+  position: fixed;
+  z-index: 1000;
+  max-height: 300px;
+  overflow: auto;
+  font-weight: bold;
+}
+
+/* List Group Item Image Styles */
+.list-group-item-img {
+  background-size: cover;
+  width: 50px;
+  height: 75px;
+  float: left;
+  margin-right: 15px;
+  border-radius: 6px;
+  font-family: Poppins, sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow: black;
+}
+
+/* Page Navigation Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

@@ -1,0 +1,145 @@
+{% extends "base.html" %} {% block body %}{{ super() }}
+<div class="container marketing">
+  <div class="row featurette">
+    <div class="col-md-5 order-md-1">
+      <img
+        class="featurette-image img-fluid mx-auto rounded"
+        alt="500x500"
+        style="max-width: 100%; height: auto"
+        src="{{title.img_url}}"
+        data-holder-rendered="true"
+      />
+    </div>
+    <div class="col-md-7 order-md-2">
+      <h2 class="featurette-heading">
+        {{title.title}} -
+        <i class="bi bi-star-fill"></i>
+        <span {% if title.ratings>
+          8 %} class="text-success"> {% elif title.ratings <= 8 and
+          title.ratings > 7 %} class="text-warning"> {% else %}
+          class="text-danger"> {% endif %} {{title.ratings}}</span
+        >
+        / 10
+      </h2>
+      <h4>
+        <div class="text-muted">
+          {{ title.release_date.strftime('%d/%m/%Y') }} &middot; {{",
+          ".join(genres_list)}}
+        </div>
+      </h4>
+
+      <p class="lead">{{title.overview}}</p>
+
+      <!-- Review Section -->
+      <div class="reviews-section">
+        <h3>Reviews:</h3>
+        {% for review in reviews %}
+        <form method="post">
+          <div class="comment">
+            <div class="img-comment">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                class="bi bi-person-circle"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                <path
+                  fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                />
+              </svg>
+            </div>
+            <div class="comment-content">
+              <span class="comment-name"> {{review.author.name}} -&nbsp </span>
+              <span class="comment-rating">
+                <i class="bi bi-star-fill"></i>
+                <span class="review-rating" id="review-rating-{{review.id}}"
+                  >{{review.rating}}</span
+                >
+                <span>/ 10</span>
+                {% if review.author.id == current_user.id %}
+                <input
+                  type="checkbox"
+                  class="btn-check"
+                  id="edit-review-btn-{{review.id}}"
+                  autocomplete="off"
+                  onclick="toggleEditReview('{{review.id}}')"
+                />
+                <label
+                  class="btn btn-primary"
+                  name="edit-review-btn"
+                  for="edit-review-btn-{{review.id}}"
+                  >Edit</label
+                >
+                {% endif %}
+                {% if current_user.id == 1 %}
+                <a
+                  class="btn btn-danger"
+                  id="delete-review-btn-{{review.id}}"
+                  name="delete-review-btn"
+                  href="{{ url_for('delete_review', id=review.id) }}"
+                />Delete</a
+                >
+                {% endif %}
+              </span>
+              <span class="comment-time">
+                <i class="bi bi-clock"></i>
+                {{ review.date_posted.strftime('%B %d, %Y at %I:%M%p') }}
+              </span>
+            </div>
+            <div class="comment-content">
+              <p class="comment-text" id="review-comment-{{review.id}}">
+                {{review.comment}}
+              </p>
+            </div>
+          </div>
+        </form>
+        {% endfor %}
+        <!-- Add Review Form -->
+        {% if current_user.is_authenticated and current_user.id not in
+        reviewers_ids%}
+        <div class="container mt-4">
+          <h3>Post Your Review:</h3>
+          <form method="post">
+            <div class="mb-3">
+              <label for="rating" class="form-label">Rating (1-10):</label>
+              <input
+                type="number"
+                class="form-control"
+                id="rating"
+                name="rating"
+                min="1"
+                max="10"
+                step="0.1"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="commentText" class="form-label">Comment:</label>
+              <textarea
+                class="form-control"
+                id="commentText"
+                name="commentText"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+
+            <button
+              name="new-submit"
+              type="submit"
+              class="btn btn-primary"
+              value="submit"
+            >
+              Submit Review
+            </button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{url_for('static', filename='js/toggle_edit_review.js')}}"></script>
+{% endblock %}
