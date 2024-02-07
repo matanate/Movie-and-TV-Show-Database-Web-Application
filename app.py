@@ -117,6 +117,13 @@ def before_commit(session):
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
+# User loader for Flask-Login
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(user_id)
+
+
 # Fetching movie and TV genres from TMDB API
 movie_genres = requests.get(URL_MOVIE_GENERS, headers=API_HEADERS).json()["genres"]
 tv_genres = requests.get(URL_TV_GENERS, headers=API_HEADERS).json()["genres"]
@@ -174,12 +181,6 @@ def fetch_titles_from_api(movie_or_tv, title):
         print(f"Error during API request: {e}")
         # Abort the request and return a 500 Internal Server Error status
         abort(500)
-
-
-# User loader for Flask-Login
-@login_manager.user_loader
-def load_user(user_id):
-    return Users.query.get(user_id)
 
 
 # Context processor for injecting variables into templates
