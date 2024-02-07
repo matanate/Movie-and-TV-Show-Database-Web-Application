@@ -5,3 +5,4 @@ Flask-Login
 Werkzeug
 requests
 SQLAlchemy
+gunicorn
