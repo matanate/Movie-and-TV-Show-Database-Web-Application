@@ -18,6 +18,7 @@ from flask_migrate import Migrate, migrate
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
+from sqlalchemy import inspect
 from sqlalchemy.orm import relationship
 from sqlalchemy.event import listens_for
 
@@ -115,7 +116,15 @@ def before_commit(session):
 
 # Check if tables exist before creating them
 with app.app_context():
-    if not db.engine.dialect.has_table(db.engine, "users"):
+    inspector = inspect(db.engine)
+
+    if not inspector.has_table("users"):
+        db.create_all()
+
+    if not inspector.has_table("titles"):
+        db.create_all()
+
+    if not inspector.has_table("reviews"):
         db.create_all()
 
 # Set Login manager
