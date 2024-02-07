@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block body %}{{ super() }}
+{% for titles in top_titles %}
+<div class="container">
+    <h1>Top 10 {{titles}}:</h1>
+    <div class="card-container">
+        {% for title in top_titles[titles] %}
+        <a href="{{ url_for('get_title', title_id=title.id, movie_or_tv=title.movie_or_tv) }}">
+            <div class="card">
+                <div class="front" style="background-image: url('{{title.img_url}}');">
+                  <span>{{title.movie_or_tv.title()}}</span>
+                </div>
+                <div class="back">
+                    <div>
+                        <div class="card-title">
+                          {{title.title}}
+                        </div>
+                      <hr>
+                        <i class="bi bi-star-fill"></i> 
+                        {% if title.ratings > 8 %} 
+                            <span class="text-success">
+                        {% elif title.ratings <= 8 and title.ratings > 7 %} 
+                            <span class="text-warning">
+                        {% else %}  
+                            <span class="text-danger">
+                        {% endif %}
+                        {{title.ratings}}</span>
+                      <hr>
+                    {% if current_user.id == 1 %}             
+                      <a
+                        href="{{ url_for('delete_title', id=title.id) }}"
+                        class="btn btn-danger"
+                        role="button"
+                        >Delete</a>
+                      {% endif %}
+                    </div>
+                    
+                </div>
+            </div>
+          </a>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,117 @@
+<header class="p-3 text-bg-dark">
+  <div class="container">
+    <div
+      class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+    >
+      <a
+        href="{{url_for('home')}}"
+        class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
+      >
+        <img
+          src="{{url_for('static', filename='images/logo.png')}}"
+          alt="site logo"
+          width="40"
+          height="40"
+          class="me-2"
+        />
+      </a>
+
+      <ul
+        class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+      >
+        <li>
+          <a
+            href="{{ url_for('home') }}"
+            class="nav-link px-2 {% if request.endpoint == 'home' %}text-secondary{% else %}text-white{% endif %}"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a
+            href="{{ url_for('movies') }}"
+            class="nav-link px-2 {% if request.endpoint == 'movies' %}text-secondary{% else %}text-white{% endif %}"
+            >Movies</a
+          >
+        </li>
+        <li>
+          <a
+            href="{{ url_for('tv_shows') }}"
+            class="nav-link px-2 {% if request.endpoint == 'tv_shows' %}text-secondary{% else %}text-white{% endif %}"
+            >TV Shows</a
+          >
+        </li>
+        {% if current_user.id == 1 %}
+        <li>
+          <a
+            href="{{ url_for('add') }}"
+            class="nav-link px-2 {% if request.endpoint == 'add' %}text-secondary{% else %}text-blue{% endif %}"
+            >Add New</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+
+      <form
+        class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
+        role="search"
+        method="GET"
+        action="{{ url_for('search', search_input='x')}}"
+      >
+        <input
+          name="search-input"
+          id="search-input"
+          type="search"
+          class="form-control form-control-dark text-bg-dark"
+          placeholder="Search..."
+          aria-label="Search"
+          oninput="toggleSearchList(this.value)"
+        />
+        <div class="list-group search-list"></div>
+      </form>
+      {% if current_user.is_authenticated %}
+      <div class="dropdown text-end">
+        <a
+          href="#"
+          class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="currentColor"
+            class="bi bi-person-circle"
+            viewBox="0 0 16 16"
+          >
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+            <path
+              fill-rule="evenodd"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+            />
+          </svg>
+          {{current_user.name}}
+        </a>
+        <ul class="dropdown-menu text-small">
+          <li>
+            <a class="dropdown-item" href="{{url_for('logout')}}">Sign out</a>
+          </li>
+        </ul>
+      </div>
+      {% else %}
+      <div class="text-end">
+        <a
+          type="button"
+          class="btn btn-outline-light me-2"
+          href="{{url_for('login')}}"
+          >Login</a
+        >
+        <a type="button" class="btn btn-warning" href="{{url_for('signup')}}"
+          >Sign-up</a
+        >
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <script src="{{url_for('static', filename='js/toggle_search_list.js')}}"></script>
+</header>

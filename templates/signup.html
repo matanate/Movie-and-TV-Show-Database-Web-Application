@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block body %}{{ super() }}
+<main class="form-signin w-100 m-auto">
+  <form method="post">
+    <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+    <div class="form-floating">
+      <input
+        type="text"
+        class="form-control"
+        id="InputName"
+        name="InputName"
+        placeholder="Name"
+      />
+      <label for="InputName">Name</label>
+    </div>
+    <div class="form-floating">
+      <input
+        type="email"
+        class="form-control"
+        id="InputEmail"
+        name="InputEmail"
+        placeholder="name@example.com"
+      />
+      <label for="InputEmail">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input
+        type="password"
+        class="form-control"
+        id="InputPassword"
+        name="InputPassword"
+        placeholder="Password"
+      />
+      <label for="InputPassword">Password</label>
+    </div>
+    <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
+  </form>
+</main>
+
+{% endblock %}
