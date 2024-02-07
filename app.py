@@ -113,6 +113,11 @@ def before_commit(session):
             obj.title.ratings = obj.title.average_rating
 
 
+# Check if tables exist before creating them
+with app.app_context():
+    if not db.engine.dialect.has_table(db.engine, "users"):
+        db.create_all()
+
 # Set Login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
