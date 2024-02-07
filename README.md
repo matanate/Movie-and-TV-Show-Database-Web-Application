@@ -83,7 +83,8 @@ administrators have access to functionalities like adding and deleting titles.
 
 ## Deployment (Live Demo)
 
-Check out the live demo: [Live Demo](https://your-deployed-link.com)
+Check out the live demo:
+[Live Demo](https://movie-and-tv-show-database-web.onrender.com)
 
 ## Acknowledgments
 
