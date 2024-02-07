@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+{{ super() }}
+<div class="container">
+    {% if titles_list %}
+        <h1 class="heading">Select Movie to add:</h1>
+        <div class="container"></div>
+        <form method="post">
+            <ul class="list-group">
+            {% for id, title in titles_list %}
+            <div class="form-floating"></div>
+                <button type="submit" class="list-group-item list-group-item-action form-control" name="action" value={{id}}>
+                    {{title.title}} - {{title.release_date}}
+                </button>
+            {% endfor %}
+            </ul>
+        </form>
+        </div>
+    {% else %}
+        <h1 class="heading">No result found</h1>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block body %} {{ super() }}
+<main class="form-signin w-100 m-auto">
+  <form method="post">
+    <h1 class="h3 mb-3 fw-normal">Add Movie/TV Show</h1>
+    <div class="form-floating">
+      <select
+        class="form-select"
+        id="InputMovieOrTV"
+        name="InputMovieOrTV"
+        aria-label="Select Movie or TV Show"
+      >
+        <option value="movie">Movie</option>
+        <option value="tv">TV Show</option>
+      </select>
+      <label for="InputMovieOrTV">Select Movie or TV Show</label>
+    </div>
+    <div class="form-floating">
+      <input
+        type="text"
+        class="form-control"
+        id="InputTitle"
+        name="InputTitle"
+        placeholder="Title"
+        required
+      />
+      <label for="InputTitle">Title</label>
+    </div>
+    <button class="btn btn-primary w-100 py-2" type="submit">Find</button>
+  </form>
+</main>
+
+{% endblock %}

@@ -110,6 +110,64 @@ def before_commit(session):
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+# Fetching movie and TV genres from TMDB API
+movie_genres = requests.get(URL_MOVIE_GENERS, headers=API_HEADERS).json()["genres"]
+tv_genres = requests.get(URL_TV_GENERS, headers=API_HEADERS).json()["genres"]
+genres_dict = {}
+for genre in movie_genres:
+    genres_dict[genre["id"]] = genre["name"]
+for genre in tv_genres:
+    genres_dict[genre["id"]] = genre["name"]
+
+
+# Function to fetch titles from TMDB API based on search query
+def fetch_titles_from_api(movie_or_tv, title):
+    # Construct the API URL for searching titles based on the provided parameters
+    url = f"https://api.themoviedb.org/3/search/{movie_or_tv}?query={title}&include_adult=false&language=en-US&page=1"
+
+    try:
+        # Make a GET request to the TMDB API with the specified headers
+        response = requests.get(url, headers=API_HEADERS)
+
+        # Raise an exception for HTTP errors
+        response.raise_for_status()
+
+        # Parse the JSON response and extract the results
+        response = response.json()["results"]
+
+        # Initialize an empty list to store the extracted title information
+        titles_list = []
+
+        # Loop through each title in the API response
+        for title in response:
+            # Determine the key names based on the movie_or_tv parameter
+            if movie_or_tv == "movie":
+                release_date_text = "release_date"
+                title_text = "title"
+            elif movie_or_tv == "tv":
+                release_date_text = "first_air_date"
+                title_text = "name"
+
+            # Create a dictionary with relevant title information and append it to the list
+            titles_list.append(
+                {
+                    "id": title["id"],
+                    "title": title[title_text],
+                    "release_date": title[release_date_text],
+                    "overview": title["overview"],
+                    "img_url": f"https://www.themoviedb.org/t/p/w600_and_h900_bestv2{title['poster_path']}",
+                    "genre_ids": title["genre_ids"],
+                }
+            )
+            # Return the list of titles
+            return titles_list
+
+    # Handle exceptions related to the API request
+    except requests.RequestException as e:
+        print(f"Error during API request: {e}")
+        # Abort the request and return a 500 Internal Server Error status
+        abort(500)
+
 
 # User loader for Flask-Login
 @login_manager.user_loader
@@ -265,6 +323,52 @@ def add():
 
     # Render the add title form template
     return render_template("add.html")
+
+
+# Route for selecting a title from search results (admin only)
+@app.route("/select", methods=["POST", "GET"])
+@admin_only
+def select():
+    # Retrieve title and movie_or_tv parameters from the request arguments
+    title = request.args.get("title")
+    movie_or_tv = request.args.get("movie_or_tv")
+
+    # Fetch titles from the TMDB API based on the provided parameters
+    titles_list = fetch_titles_from_api(movie_or_tv, title)
+
+    if request.method == "POST":
+        # Retrieve the selected title ID from the form
+        title_id = int(request.form.get("action"))
+        selected_title = titles_list[title_id]
+
+        # Check if the selected title already exists in the database
+        if not db.session.get(Titles, selected_title.get("id")):
+            # If not, create a new Titles object and add it to the database
+            title_obj = Titles(
+                id=selected_title.get("id"),
+                title=selected_title.get("title"),
+                release_date=datetime.datetime.strptime(
+                    selected_title.get("release_date"), "%Y-%m-%d"
+                ),
+                overview=selected_title.get("overview"),
+                img_url=selected_title.get("img_url"),
+                genre_ids=selected_title.get("genre_ids"),
+                movie_or_tv=movie_or_tv,
+            )
+            db.session.add(title_obj)
+            db.session.commit()
+            flash("Title added successfully.", "success")
+            return redirect(url_for("home"))
+        else:
+            # If the title already exists, flash a warning message
+            flash("Title already exists in the database.", "warning")
+
+    # Enumerate titles_list if it's not empty
+    if titles_list:
+        titles_list = enumerate(titles_list)
+
+    # Render the title selection template with the fetched titles
+    return render_template("select.html", titles_list=titles_list)
 
 
 if __name__ == "__main__":
