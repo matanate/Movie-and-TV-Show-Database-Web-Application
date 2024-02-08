@@ -515,6 +515,7 @@ def get_title(movie_or_tv, title_id):
 @app.route("/movies/")
 def movies():
     # Redirect to the generic movies_tv_pages route with default values
+    print(request.endpoint)
     return redirect(url_for("movies_tv_pages", movies_tv_shows="movies", page_number=1))
 
 
