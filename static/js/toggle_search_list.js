@@ -1,6 +1,15 @@
 // Get the search input element and search list container
-const searchInputItem = document.querySelector('.search-input')
+const searchInputItem = document.querySelector('#search-input')
 const searchListItem = document.querySelector('.search-list')
+
+// Debounce the toggleSearchList function
+const debouncedToggleSearchList = _.debounce(() => {
+  const searchInputValue = searchInputItem.value.trim()
+  toggleSearchList(searchInputValue)
+}, 300)
+
+// Add an event listener to the search input
+searchInputItem.addEventListener('input', debouncedToggleSearchList)
 
 // Function to toggle and update the search list based on user input
 function toggleSearchList(searchInput) {
@@ -11,7 +20,7 @@ function toggleSearchList(searchInput) {
   const originUrl = document.location.origin
 
   // Check if there is valid search input
-  if (searchInput) {
+  if (!searchInput == '') {
     // Fetch search results based on user input
     fetch('/search-result/?search-input=' + searchInput)
       .then(response => response.json())
@@ -43,9 +52,9 @@ function toggleSearchList(searchInput) {
 
         // If no search results, display a message
         if (!searchListItem.innerHTML) {
-          listItem = document.createElement('label')
+          listItem = document.createElement('p')
           Object.assign(listItem, {
-            type: 'label',
+            type: 'p',
             className: 'list-group-item',
           })
           listItem.innerHTML = 'No results found'
@@ -59,4 +68,8 @@ function toggleSearchList(searchInput) {
 // Function to convert a string to title case
 function titleCase(str) {
   return str.toLowerCase().replace(/(?:^|\s)\w/g, match => match.toUpperCase())
+}
+
+function isEmptyObject(obj) {
+  return Object.keys(obj).length === 0
 }

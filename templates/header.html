@@ -64,7 +64,6 @@
           class="form-control form-control-dark text-bg-dark"
           placeholder="Search..."
           aria-label="Search"
-          oninput="toggleSearchList(this.value)"
         />
         <div class="list-group search-list"></div>
       </form>
@@ -113,5 +112,6 @@
       {% endif %}
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
   <script src="{{url_for('static', filename='js/toggle_search_list.js')}}"></script>
 </header>
