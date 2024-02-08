@@ -37,7 +37,7 @@ URL_MOVIE_GENERS = "https://api.themoviedb.org/3/genre/movie/list?language=en"
 URL_TV_GENERS = "https://api.themoviedb.org/3/genre/tv/list?language=en"
 
 # Set titles per page
-TITLES_PER_PAGE = 20
+TITLES_PER_PAGE = 2
 
 # Flask app setup
 app = Flask(__name__)
@@ -566,7 +566,7 @@ def movies_tv_pages(movies_tv_shows, page_number):
             all_titles=all_titles,
             total_pages=total_pages,
             page_number=page_number,
-            movies_tv_shows=movies_tv_shows.replace("_", " ").title(),
+            movies_tv_shows=movies_tv_shows,
         )
 
 
@@ -614,7 +614,7 @@ def search_pages(search_input, page_number):
         # Render the template with the paginated search results and pagination information
         return render_template(
             "display_all.html",
-            all_titles={"Search Result": search_result},
+            all_titles=search_result,
             total_pages=total_pages,
             page_number=page_number,
             movies_tv_shows=f"search/{search_input}/",

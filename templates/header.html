@@ -29,14 +29,14 @@
         <li>
           <a
             href="{{ url_for('movies') }}"
-            class="nav-link px-2 {% if movies_tv_shows == 'Movies' %}text-secondary{% else %}text-white{% endif %}"
+            class="nav-link px-2 {% if movies_tv_shows == 'movies' %}text-secondary{% else %}text-white{% endif %}"
             >Movies</a
           >
         </li>
         <li>
           <a
             href="{{ url_for('tv_shows') }}"
-            class="nav-link px-2 {% if movies_tv_shows == 'Tv Shows' %}text-secondary{% else %}text-white{% endif %}"
+            class="nav-link px-2 {% if movies_tv_shows == 'tv_shows' %}text-secondary{% else %}text-white{% endif %}"
             >TV Shows</a
           >
         </li>
