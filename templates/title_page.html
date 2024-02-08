@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block body %}{{ super() }}
+{% extends "base.html" %}
+{% block head_title %}{{title.title}} - AtMDB{% endblock %}
+{% block body %}{{ super() }}
 <div class="container marketing">
   <div class="row featurette">
     <div class="col-md-5 order-md-1">

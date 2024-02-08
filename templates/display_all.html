@@ -1,12 +1,12 @@
-{% extends "base.html" %} {% block body %}{{ super() }} {% for titles in
-all_titles %}
+{% extends "base.html" %} {% block head_title %}{{movies_tv_shows}} - AtMDB{%
+endblock %} {% block body %}{{ super() }}
 <div class="container">
-  {%if not all_titles[titles] %}
+  {%if not all_titles %}
   <h3>No result found</h3>
   {% else %}
-  <h1>{{titles}}:</h1>
+  <h1>{{movies_tv_shows}}:</h1>
   <div class="card-container">
-    {% for title in all_titles[titles] %}
+    {% for title in all_titles %}
     <a
       href="{{ url_for('get_title', title_id=title.id, movie_or_tv=title.movie_or_tv) }}"
     >
@@ -44,7 +44,6 @@ all_titles %}
   </div>
   {% endif %}
 </div>
-{% endfor %}
 <nav aria-label="page selector">
   <ul class="pagination">
     {% if page_number == 1 %}
