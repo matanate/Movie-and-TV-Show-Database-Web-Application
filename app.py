@@ -257,6 +257,10 @@ def home():
 # Route for user signup
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
+    if current_user.is_authenticated:
+        # Redirect to the homepage
+        return redirect(url_for("home"))
+
     if request.method == "POST":
         # Retrieve user input from the signup form
         name = request.form.get("InputName")
@@ -296,6 +300,10 @@ def signup():
 # Route for user login
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    if current_user.is_authenticated:
+        # Redirect to the homepage
+        return redirect(url_for("home"))
+
     if request.method == "POST":
         # Retrieve user input from the login form
         email = request.form.get("InputEmail")
@@ -325,6 +333,9 @@ def login():
 # Route for user logout
 @app.route("/logout")
 def logout():
+    if not current_user.is_authenticated:
+        # Redirect to the homepage
+        return redirect(url_for("home"))
     # Flash a logout message, log out the user, and redirect to the homepage
     flash(f"Goodbye {current_user.name}, you are now logged out.", "success")
     logout_user()
