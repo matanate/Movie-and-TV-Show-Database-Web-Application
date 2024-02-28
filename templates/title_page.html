@@ -1,6 +1,5 @@
-{% extends "base.html" %}
-{% block head_title %}{{title.title}} - AtMDB{% endblock %}
-{% block body %}{{ super() }}
+{% extends "base.html" %} {% block head_title %}{{title.title}} - AtMDB{%
+endblock %} {% block body %}{{ super() }}
 <div class="container marketing">
   <div class="row featurette">
     <div class="col-md-5 order-md-1">
@@ -35,7 +34,7 @@
       <!-- Review Section -->
       <div class="reviews-section">
         <h3>Reviews:</h3>
-        {% for review in reviews %}
+        {% if reviews %} {% for review in reviews %}
         <form method="post">
           <div class="comment">
             <div class="img-comment">
@@ -74,15 +73,15 @@
                   for="edit-review-btn-{{review.id}}"
                   >Edit</label
                 >
-                {% endif %}
-                {% if current_user.id == 1 %}
+                {% endif %} {% if current_user.id == 1 %}
                 <a
                   class="btn btn-danger"
                   id="delete-review-btn-{{review.id}}"
                   name="delete-review-btn"
                   href="{{ url_for('delete_review', id=review.id) }}"
-                />Delete</a
                 >
+                  Delete
+                </a>
                 {% endif %}
               </span>
               <span class="comment-time">
@@ -97,7 +96,9 @@
             </div>
           </div>
         </form>
-        {% endfor %}
+        {% endfor %} {% else %}
+        <div class="comment-content">No Reviews to display</div>
+        {% endif %}
         <!-- Add Review Form -->
         {% if current_user.is_authenticated and current_user.id not in
         reviewers_ids%}
