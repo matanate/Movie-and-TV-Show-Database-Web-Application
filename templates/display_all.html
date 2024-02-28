@@ -69,7 +69,7 @@
     </li>
     {% endif %}
     <li class="page-item active">
-      <span class="page-link">{{i}}</span>
+      <span class="page-link">{{page_number}}</span>
     </li>
     {% if page_number != total_pages %}
     <li class="page-item" aria-current="page">
@@ -79,7 +79,7 @@
         >{{ page_number + 1 }}</a
       >
     </li>
-    {% endif %} {% endfor %} {% if page_number == total_pages %}
+    {% endif %}{% if page_number == total_pages %}
     <li class="page-item">
       <span class="page-link disabled">Next</span>
     </li>
