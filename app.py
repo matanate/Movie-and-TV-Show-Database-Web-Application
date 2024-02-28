@@ -37,7 +37,7 @@ URL_MOVIE_GENERS = "https://api.themoviedb.org/3/genre/movie/list?language=en"
 URL_TV_GENERS = "https://api.themoviedb.org/3/genre/tv/list?language=en"
 
 # Set titles per page
-TITLES_PER_PAGE = 2
+TITLES_PER_PAGE = 20
 
 # Flask app setup
 app = Flask(__name__)
@@ -641,4 +641,4 @@ def search_result():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
