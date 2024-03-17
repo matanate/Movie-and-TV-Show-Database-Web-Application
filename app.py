@@ -162,7 +162,6 @@ def fetch_titles_from_api(movie_or_tv, title):
 
         # Parse the JSON response and extract the results
         response = response.json()["results"]
-
         # Initialize an empty list to store the extracted title information
         titles_list = []
 
@@ -188,7 +187,7 @@ def fetch_titles_from_api(movie_or_tv, title):
                 }
             )
             # Return the list of titles
-            return titles_list
+        return titles_list
 
     # Handle exceptions related to the API request
     except requests.RequestException as e:
@@ -290,6 +289,7 @@ def signup():
             # Log in the newly created user
             login_user(user)
 
+            flash(f"Welcome {user.name}, you are now logged in.", "success")
             # Redirect to the homepage
             return redirect(url_for("home"))
 
